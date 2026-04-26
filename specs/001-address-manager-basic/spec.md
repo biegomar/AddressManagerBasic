@@ -7,6 +7,16 @@
 Such-/Bearbeitungsfluss, Gesamtliste und Dateispeicherung mit pipe-getrennten
 Datensaetzen"
 
+## Clarifications
+
+### Session 2026-04-26
+
+- Q: Wie wird ein Datensatz bei mehreren Treffern mit gleichem Nachnamen eindeutig identifiziert? → A: Sequenzielle Nummerierung in Trefferlistenliste (1., 2., 3. etc.); Anwender waehlt per Nummer.
+- Q: Maximale Skalierung und Speicherbudget fuer Trefferlisten? → A: Max. ca. 200 Datensaetze, maximal 5-8 Treffer pro Seite mit Umblättern.
+- Q: Konkrete Standardfelder und Feldlängenbeschraenkungen? → A: Nachname (30), Vorname (30), Email (40), Strasse (40), Ort (30), Telefon (20) – total ca. 190 Zeichen pro Datensatz plus Pipe-Trennzeichen.
+- Q: Fehlerbehandlung und Datenwiederherstellung bei Schreib-/Lesefehlern? → A: Einfach und sicher: Bei Fehler Fehlermeldung anzeigen, alte Daten behalten, keine Aenderung speichern, kein Wiederholversuch.
+- Q: Suchverhalten – Nachnamen-Matching und Sortierung? → A: Exakt und unsortiert: Nur exakte Namensuebereinstimmung; Ergebnisse in Speicherreihenfolge.
+
 ## User Scenarios & Validation _(mandatory)_
 
 ### User Story 1 - Neue Adresse erfassen (Priority: P1)
@@ -114,16 +124,17 @@ Ausgabe erscheinen.
   Gesamtliste, Loeschbestaetigung und Rueckmeldungen nach Speichern oder
   Fehlern. Die Navigation erfolgt ausschliesslich ueber Tastatureingaben mit
   sichtbaren Auswahlhinweisen.
-- **PC-002**: Das Feature arbeitet mit einem knappen Speicherbudget.
-  Gleichzeitig im Arbeitsspeicher gehalten werden duerfen nur die aktuell
-  benoetigten Bildschirmdaten, der aktuelle Datensatz und eine begrenzte
-  Treffermenge. Datensaetze muessen bei Bedarf in logisch zusammenhaengende
-  String-Teile aufgeteilt werden, sobald eine Einzelzeichenkette die
-  255-Zeichen-Grenze nicht mehr sicher einhaelt.
+- **PC-002**: Das Feature arbeitet mit einem knappen Speicherbudget fuer max. ca.
+  200 Datensaetze. Jeder Datensatz belegt ca. 190-200 Zeichen (sechs Felder
+  pipe-getrennt). Gleichzeitig im Arbeitsspeicher gehalten werden duerfen nur
+  die aktuell benoetigten Bildschirmdaten (max. 5-8 Treffer pro Seite), der
+  aktuelle Datensatz und kleine Arbeitspuffer. Datensaetze muessen bei Bedarf in
+  logisch zusammenhaengende String-Teile aufgeteilt werden, sobald eine
+  Einzelzeichenkette die 255-Zeichen-Grenze nicht mehr sicher einhaelt.
 - **PC-003**: Die Speicherung erfolgt als pipe-getrennte Datensaetze in einer
-  Datei mit wahlfreiem Zugriff. Falls ein Datensatz auf mehrere String-Teile
-  verteilt werden muss, bleiben diese Teile logisch gekoppelt und gemeinsam les-
-  und schreibbar.
+  Datei mit wahlfreiem Zugriff. Feldstruktur: Nachname|Vorname|Email|Strasse|Ort|Telefon.
+  Falls ein Datensatz auf mehrere String-Teile verteilt werden muss, bleiben
+  diese Teile logisch gekoppelt und gemeinsam les- und schreibbar.
 - **PC-004**: Die manuelle Validierung muss auf Emulator oder echter Hardware
   mindestens den Weg Programmstart -> neuer Eintrag -> Suche -> Bearbeiten oder
   Kopieren -> Liste -> Loeschen -> Programmende abdecken, einschliesslich
@@ -142,11 +153,14 @@ Ausgabe erscheinen.
   eine Erfassungsmaske mit Standardfeldern ermoeglichen.
 - **FR-004**: Das System MUSS neue und geaenderte Datensaetze dauerhaft
   speichern, so dass sie nach einem Neustart des Programms wieder verfuegbar
-  sind.
-- **FR-005**: Das System MUSS die Suche nach Adressen ueber den Nachnamen
-  ermoeglichen.
-- **FR-006**: Das System MUSS nach einer Suche alle passenden Treffer anzeigen
-  und dem Anwender die Auswahl eines aktuellen Datensatzes erlauben.
+  sind.exakten
+  Nachnamen ermoeglichen. Dabei wird auf exakte Uebereinstimmung geprueft
+  (keine Präfix-Suche)Das System MUSS die Suche nach Adressen ueber den Nachnamen
+  ermoeglichen.Treffer mit exaktem
+  Nachnamen-Match in ihrer Speicherreihenfolge sequenziell nummeriert anzeigen
+  (1., 2., 3. etc.) und dem Anwender die Auswahl eines aktuellen Datensatzes
+ igen (1., 2., 3. etc.) und dem Anwender die Auswahl
+  eines aktuellen Datensatzes durch Eingabe der Nummer erlauben.
 - **FR-007**: Das System MUSS den ausgewaehlten Datensatz waehrend des
   Verwaltungsvorgangs als aktuellen Eintrag im Speicher halten.
 - **FR-008**: Das System MUSS fuer den aktuellen Eintrag die Funktionen
@@ -159,17 +173,20 @@ Ausgabe erscheinen.
   speichern.
 - **FR-012**: Das System MUSS verhindern, dass die 255-Zeichen-Grenze eines
   einzelnen BASIC-Strings zu stiller Datenbeschaedigung fuehrt.
-- **FR-013**: Das System MUSS bei Lese-, Schreib- oder Datentraegerfehlern eine
-  verstaendliche Rueckmeldung geben und den bis dahin gueltigen Datenbestand
+- **FR-013**: Das System MUSS bei L. Der bis dahin gueltigen Datenbestand bleibt
+  unveraendert erhalten. Es wird kein automatischer Wiederholversuch gestartet;
+  der Anwender muss die Fehlerbehandlung manuell fortsetzen (erneut versuchen
+  oder abbrechen)liche Rueckmeldung geben und den bis dahin gueltigen Datenbestand
   schuetzen.
 - **FR-014**: Das System MUSS Abbrueche in Eingabe-, Bearbeitungs- und
   Loeschdialogen so behandeln, dass ohne bestaetigtes Speichern oder Loeschen
   keine unbeabsichtigte Aenderung entsteht.
 
 ### Key Entities _(include if feature involves data)_
-
-- **Adressdatensatz**: Ein gespeicherter Kontakt mit Standardfeldern wie
-  Nachname, Vorname, Strasse, Ort und Telefonnummer sowie der pipe-getrennten
+den sechs Standardfeldern:
+  Nachname (max. 30 Zeichen), Vorname (max. 30 Zeichen), Email (max. 40 Zeichen),
+  Strasse (max. 40 Zeichen), Ort (max. 30 Zeichen), Telefonnummer (max. 20 Zeichen).
+  Total ca. 190 Zeichen, pipe-getrennt abgelegt Ort und Telefonnummer sowie der pipe-getrennten
   Darstellung fuer die Ablage.
 - **Aktueller Eintrag**: Der vom Anwender aus einer Trefferliste ausgewaehlte
   Datensatz, auf den sich Bearbeiten, Kopieren und Loeschen beziehen.
@@ -199,8 +216,9 @@ Ausgabe erscheinen.
   Schreibfehler bleibt der zuvor gespeicherte Datensatzbestand unveraendert
   erhalten.
 
-## Assumptions
-
+## AssumptionsNachname (30), Vorname (30), Email (40),
+  Strasse (40), Ort (30), Telefonnummer (20) – insgesamt sechs Felder,
+  pipe-getrennt, ca. 190 Zeichen gesamt pro Datensatz
 - Standardfelder fuer einen Eintrag sind mindestens Nachname, Vorname, Strasse,
   Ort und Telefonnummer.
 - Das Hauptmenue stellt zwei Fachfunktionen und den Punkt Beenden bereit; die
@@ -210,6 +228,7 @@ Ausgabe erscheinen.
   Joystick-Bedienung ist nicht Bestandteil des Umfangs.
 - Die Gesamtliste und Trefferlisten duerfen seitenweise oder schrittweise
   dargestellt werden, solange der Anwender nachvollziehbar weiterblaettern kann.
-- Der bestehende Datenbestand darf kuenftig wachsen, bleibt aber in einem
-  Umfang, der mit sequentiellem Anwenderfluss und begrenzter Trefferanzeige
-  handhabbar ist.
+- Der bestehende Datenbestand darf kuenftig bis ca. 200 Datensaetze wachsen.
+  Trefferlisten werden seitenweise mit je 5-8 Eintraegen dargestellt. Das System
+  muss in diesem Umfang mit begrenzter RAM und 1541-Diskettenspeicher
+  handhabbar bleiben.
