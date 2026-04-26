@@ -85,6 +85,7 @@ specs/001-address-manager-basic/
 ├── research.md                      # Phase 0: Technical research (C64 BASIC, 1541, screen I/O)
 ├── data-model.md                    # Phase 1: Data storage format, entities, state machine
 ├── quickstart.md                    # Phase 1: Manual validation workflow (9 phases)
+├── validation-log.md                # Validation evidence log for manual test runs
 ├── contracts/
 │   └── runtime-interface.md         # Phase 1: Runtime contract for BASIC program
 ├── checklists/

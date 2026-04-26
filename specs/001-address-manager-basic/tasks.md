@@ -23,6 +23,9 @@ single-file C64 BASIC delivery.
 - [ ] T004 [P] Create validation evidence template (story checkpoints,
       pass/fail, notes) in `specs/001-address-manager-basic/validation-log.md`
 - [ ] T005 Document build + run workflow for VS64 and VICE in `README.md`
+- [x] T044 Normalize duplicated/corrupted requirement wording and keep FR text
+      stable in `specs/001-address-manager-basic/spec.md` before implementation
+      _(done: FR-001..FR-014 restored, Refinement clarifications integrated)_
 
 ---
 
@@ -52,7 +55,7 @@ single-file C64 BASIC delivery.
       safe return path in `src/main.bas`
 - [ ] T015 Implement state machine skeleton for 7 screen states in
       `src/main.bas`
-- [ ] T016 Implement shared pagination helper for 5-8 items per page in
+- [ ] T016 Implement shared pagination helper for exactly 8 items per page in
       `src/main.bas`
 - [ ] T017 Add startup/shutdown flow (main menu entry + clean program exit) in
       `src/main.bas`
@@ -72,24 +75,27 @@ save, restart program, and confirm record still exists.
 ### Validation Tasks (Required)
 
 - [ ] T018 [P] [US1] Add explicit US1 validation checklist and expected outputs
-      in `specs/001-address-manager-basic/quickstart.md`
+      (including timed checks for SC-001 and SC-002) in
+      `specs/001-address-manager-basic/quickstart.md`
 - [ ] T019 [US1] Execute US1 manual validation and record evidence in
-      `specs/001-address-manager-basic/validation-log.md`
+      `specs/001-address-manager-basic/validation-log.md` (menu recognition <=30
+      sec, entry capture <=2 min)
 
 ### Implementation Tasks
 
-- [ ] T020 [US1] Implement "new entry" route from main menu to entry form in
-      `src/main.bas`
+- [ ] T020 [US1] Implement "new entry" route: Eintrag verwalten → Taste N →
+      Erfassungsmaske in `src/main.bas`
 - [ ] T021 [US1] Implement 6-field input form with per-field max length
       enforcement in `src/main.bas`
-- [ ] T022 [US1] Implement required-field checks (Nachname, Vorname) with retry
-      prompt in `src/main.bas`
+- [ ] T022 [US1] Implement required-field checks: reject save if Nachname or
+      Vorname empty; show retry prompt; Email/Strasse/Ort/Telefon may be blank
+      in `src/main.bas`
 - [ ] T023 [US1] Implement save action for new entry using foundational write
       routine in `src/main.bas`
 - [ ] T024 [US1] Implement cancel/abort path that discards unsaved input in
       `src/main.bas`
-- [ ] T025 [US1] Implement success/error message screen transitions back to main
-      menu in `src/main.bas`
+- [ ] T025 [US1] Implement success message transition to main menu; on I/O error
+      show message then return to previous screen in `src/main.bas`
 
 **Checkpoint**: User Story 1 is independently usable and testable as MVP.
 
@@ -129,7 +135,8 @@ record with confirmation, and verify persistence.
 - [ ] T035 [US2] Implement no-match message flow with return to search/menu in
       `src/main.bas`
 - [ ] T036 [US2] Ensure write/read failure paths keep prior persisted data
-      intact in `src/main.bas`
+      intact and return to the screen that triggered the I/O operation in
+      `src/main.bas`
 
 **Checkpoint**: User Story 2 is independently validatable and does not regress
 US1.
@@ -172,8 +179,6 @@ prior stories.
 
 **Purpose**: Final hardening, documentation, and full workflow validation.
 
-- [ ] T044 Normalize duplicated/corrupted requirement wording and keep FR text
-      stable in `specs/001-address-manager-basic/spec.md`
 - [ ] T045 Improve inline BASIC comments for non-obvious
       parser/I/O/state-machine sections in `src/main.bas`
 - [ ] T046 [P] Update user-facing controls and workflow notes in `README.md`

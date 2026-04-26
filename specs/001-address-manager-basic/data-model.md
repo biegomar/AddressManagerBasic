@@ -38,11 +38,10 @@ Leseoperationen).
 
 ### Storage Location
 
-File: `ADDRESSES.DAT` (REL-format, 1541-compatible)
+File: `ADDRESSES.DAT` (1541-compatible, sequenziell verarbeitet)
 
 - Stored on bootable 1541 floppy or emulated disk
-- Sequential read/write allowed; random access via SEEK (if implemented in
-  future)
+- Sequential read/write as MVP access strategy
 - Each line = one record (newline-delimited internally by BASIC I/O)
 
 ### Key Constraints
@@ -154,12 +153,7 @@ File: `ADDRESSES.DAT` (REL-format, 1541-compatible)
        │              │         └─→ [Abbrechen] → Trefferliste
        │              └─→ [Abbrechen] → Hauptmenu
        │
-       ├─→ [2] Eintrag anlegen
-       │    └─→ Erfassungsmaske (Neue Eintraege)
-       │         ├─→ [Speichern] → Meldung → Hauptmenu
-       │         └─→ [Abbrechen] → Hauptmenu
-       │
-       ├─→ [3] Gesamtliste anzeigen
+      ├─→ [2] Gesamtliste anzeigen
        │    └─→ Gesamtliste (paginated)
        │         ├─→ [Weiter] / [Zurück] → weitere Seiten
        │         └─→ [Hauptmenu] → Hauptmenu
