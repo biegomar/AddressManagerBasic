@@ -1,0 +1,13 @@
+{
+    "name": "AddressManagerBasic",
+    "description": "Project AddressManagerBasic",
+    "toolkit": "basic",
+    "sources": [
+        "src/main.bas"
+    ],
+    "build": "debug",
+    "definitions": [],
+    "includes": [],
+    "args": [],
+    "compiler": ""
+}
