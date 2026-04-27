@@ -13,16 +13,16 @@ mapped to `specs/001-address-manager-basic/quickstart.md` plus
 **Purpose**: Prepare implementation scaffolding and traceability for a
 single-file C64 BASIC delivery.
 
-- [ ] T001 Add an implementation section with BASIC line-range allocation in
+- [x] T001 Add an implementation section with BASIC line-range allocation in
       `specs/001-address-manager-basic/plan.md`
-- [ ] T002 Add FR-to-routine traceability table (FR-001..FR-014) in
+- [x] T002 Add FR-to-routine traceability table (FR-001..FR-014) in
       `specs/001-address-manager-basic/plan.md`
-- [ ] T003 [P] Add task-oriented test data set (at least 10 sample contacts
+- [x] T003 [P] Add task-oriented test data set (at least 10 sample contacts
       incl. duplicate last names) in
       `specs/001-address-manager-basic/quickstart.md`
-- [ ] T004 [P] Create validation evidence template (story checkpoints,
+- [x] T004 [P] Create validation evidence template (story checkpoints,
       pass/fail, notes) in `specs/001-address-manager-basic/validation-log.md`
-- [ ] T005 Document build + run workflow for VS64 and VICE in `README.md`
+- [x] T005 Document build + run workflow for VS64 and VICE in `README.md`
 - [x] T044 Normalize duplicated/corrupted requirement wording and keep FR text
       stable in `specs/001-address-manager-basic/spec.md` before implementation
       _(done: FR-001..FR-014 restored, Refinement clarifications integrated)_
@@ -35,29 +35,29 @@ single-file C64 BASIC delivery.
 
 **CRITICAL**: No user story work begins before this phase is complete.
 
-- [ ] T006 Define global constants for field limits, page sizes, and file names
+- [x] T006 Define global constants for field limits, page sizes, and file names
       in `src/main.bas`
-- [ ] T007 Implement unified screen clear/header/footer helpers for 40x25 output
+- [x] T007 Implement unified screen clear/header/footer helpers for 40x25 output
       in `src/main.bas`
-- [ ] T008 Implement central keyboard input dispatcher for menu/state navigation
+- [x] T008 Implement central keyboard input dispatcher for menu/state navigation
       in `src/main.bas`
-- [ ] T009 Implement pipe-safe field sanitizer and length validator routines in
+- [x] T009 Implement pipe-safe field sanitizer and length validator routines in
       `src/main.bas`
-- [ ] T010 Implement record encode routine for
+- [x] T010 Implement record encode routine for
       `NACHNAME|VORNAME|EMAIL|STRASSE|ORT|TELEFON` in `src/main.bas`
-- [ ] T011 Implement record decode/parsing routines using `INSTR`/`MID$` in
+- [x] T011 Implement record decode/parsing routines using `INSTR`/`MID$` in
       `src/main.bas`
-- [ ] T012 Implement disk read-all routine for `ADDRESSES.DAT` with sequential
+- [x] T012 Implement disk read-all routine for `ADDRESSES.DAT` with sequential
       I/O in `src/main.bas`
-- [ ] T013 Implement disk write-safe routine (temp buffer + commit/replace) in
+- [x] T013 Implement disk write-safe routine (temp buffer + commit/replace) in
       `src/main.bas`
-- [ ] T014 Implement global `ONERR` error handler with user-facing messages and
+- [x] T014 Implement global `ONERR` error handler with user-facing messages and
       safe return path in `src/main.bas`
-- [ ] T015 Implement state machine skeleton for 7 screen states in
+- [x] T015 Implement state machine skeleton for 7 screen states in
       `src/main.bas`
-- [ ] T016 Implement shared pagination helper for exactly 8 items per page in
+- [x] T016 Implement shared pagination helper for exactly 8 items per page in
       `src/main.bas`
-- [ ] T017 Add startup/shutdown flow (main menu entry + clean program exit) in
+- [x] T017 Add startup/shutdown flow (main menu entry + clean program exit) in
       `src/main.bas`
 
 **Checkpoint**: Shared runtime is stable; user-story flows can be added without
@@ -74,7 +74,7 @@ save, restart program, and confirm record still exists.
 
 ### Validation Tasks (Required)
 
-- [ ] T018 [P] [US1] Add explicit US1 validation checklist and expected outputs
+- [x] T018 [P] [US1] Add explicit US1 validation checklist and expected outputs
       (including timed checks for SC-001 and SC-002) in
       `specs/001-address-manager-basic/quickstart.md`
 - [ ] T019 [US1] Execute US1 manual validation and record evidence in
@@ -83,18 +83,18 @@ save, restart program, and confirm record still exists.
 
 ### Implementation Tasks
 
-- [ ] T020 [US1] Implement "new entry" route: Eintrag verwalten → Taste N →
+- [x] T020 [US1] Implement "new entry" route: Eintrag verwalten → Taste N →
       Erfassungsmaske in `src/main.bas`
-- [ ] T021 [US1] Implement 6-field input form with per-field max length
+- [x] T021 [US1] Implement 6-field input form with per-field max length
       enforcement in `src/main.bas`
-- [ ] T022 [US1] Implement required-field checks: reject save if Nachname or
+- [x] T022 [US1] Implement required-field checks: reject save if Nachname or
       Vorname empty; show retry prompt; Email/Strasse/Ort/Telefon may be blank
       in `src/main.bas`
-- [ ] T023 [US1] Implement save action for new entry using foundational write
+- [x] T023 [US1] Implement save action for new entry using foundational write
       routine in `src/main.bas`
-- [ ] T024 [US1] Implement cancel/abort path that discards unsaved input in
+- [x] T024 [US1] Implement cancel/abort path that discards unsaved input in
       `src/main.bas`
-- [ ] T025 [US1] Implement success message transition to main menu; on I/O error
+- [x] T025 [US1] Implement success message transition to main menu; on I/O error
       show message then return to previous screen in `src/main.bas`
 
 **Checkpoint**: User Story 1 is independently usable and testable as MVP.
@@ -112,29 +112,29 @@ record with confirmation, and verify persistence.
 
 ### Validation Tasks (Required)
 
-- [ ] T026 [P] [US2] Add explicit US2 validation path (including duplicate
+- [x] T026 [P] [US2] Add explicit US2 validation path (including duplicate
       last-name cases) in `specs/001-address-manager-basic/quickstart.md`
 - [ ] T027 [US2] Execute US2 manual validation and record evidence in
       `specs/001-address-manager-basic/validation-log.md`
 
 ### Implementation Tasks
 
-- [ ] T028 [US2] Implement exact last-name search input flow in `src/main.bas`
-- [ ] T029 [US2] Implement result list rendering with sequential numbering
+- [x] T028 [US2] Implement exact last-name search input flow in `src/main.bas`
+- [x] T029 [US2] Implement result list rendering with sequential numbering
       (1..N) in `src/main.bas`
-- [ ] T030 [US2] Implement result selection by number and current-record buffer
+- [x] T030 [US2] Implement result selection by number and current-record buffer
       assignment in `src/main.bas`
-- [ ] T031 [US2] Implement edit action prefilled from current record and save
+- [x] T031 [US2] Implement edit action prefilled from current record and save
       changes in `src/main.bas`
-- [ ] T032 [US2] Implement copy action that clones selected record to a new
+- [x] T032 [US2] Implement copy action that clones selected record to a new
       entry in `src/main.bas`
-- [ ] T033 [US2] Implement delete confirmation screen (`J/N`) and confirmed
+- [x] T033 [US2] Implement delete confirmation screen (`J/N`) and confirmed
       delete flow in `src/main.bas`
-- [ ] T034 [US2] Implement delete abort path that preserves original record
+- [x] T034 [US2] Implement delete abort path that preserves original record
       unchanged in `src/main.bas`
-- [ ] T035 [US2] Implement no-match message flow with return to search/menu in
+- [x] T035 [US2] Implement no-match message flow with return to search/menu in
       `src/main.bas`
-- [ ] T036 [US2] Ensure write/read failure paths keep prior persisted data
+- [x] T036 [US2] Ensure write/read failure paths keep prior persisted data
       intact and return to the screen that triggered the I/O operation in
       `src/main.bas`
 
@@ -152,22 +152,22 @@ forward/backward, and confirm complete coverage in storage order.
 
 ### Validation Tasks (Required)
 
-- [ ] T037 [P] [US3] Add explicit US3 full-list validation path and paging
+- [x] T037 [P] [US3] Add explicit US3 full-list validation path and paging
       checks in `specs/001-address-manager-basic/quickstart.md`
 - [ ] T038 [US3] Execute US3 manual validation and record evidence in
       `specs/001-address-manager-basic/validation-log.md`
 
 ### Implementation Tasks
 
-- [ ] T039 [US3] Implement full-list screen route from main menu in
+- [x] T039 [US3] Implement full-list screen route from main menu in
       `src/main.bas`
-- [ ] T040 [US3] Implement paginated list rendering in storage order in
+- [x] T040 [US3] Implement paginated list rendering in storage order in
       `src/main.bas`
-- [ ] T041 [US3] Implement next/previous page navigation and page indicator in
+- [x] T041 [US3] Implement next/previous page navigation and page indicator in
       `src/main.bas`
-- [ ] T042 [US3] Implement empty-dataset message for full-list flow in
+- [x] T042 [US3] Implement empty-dataset message for full-list flow in
       `src/main.bas`
-- [ ] T043 [US3] Implement return-to-main-menu behavior from all full-list
+- [x] T043 [US3] Implement return-to-main-menu behavior from all full-list
       screens in `src/main.bas`
 
 **Checkpoint**: User Story 3 is independently validatable and integrated with
@@ -179,14 +179,14 @@ prior stories.
 
 **Purpose**: Final hardening, documentation, and full workflow validation.
 
-- [ ] T045 Improve inline BASIC comments for non-obvious
+- [x] T045 Improve inline BASIC comments for non-obvious
       parser/I/O/state-machine sections in `src/main.bas`
-- [ ] T046 [P] Update user-facing controls and workflow notes in `README.md`
+- [x] T046 [P] Update user-facing controls and workflow notes in `README.md`
 - [ ] T047 Re-run complete 9-phase validation and log final pass/fail in
       `specs/001-address-manager-basic/validation-log.md`
-- [ ] T048 Verify performance/memory targets and record observed values in
+- [x] T048 Verify performance/memory targets and record observed values in
       `specs/001-address-manager-basic/plan.md`
-- [ ] T049 Run final VS64 build and confirm output artifact availability in
+- [x] T049 Run final VS64 build and confirm output artifact availability in
       `build/AddressManagerBasic.prg`
 
 ---

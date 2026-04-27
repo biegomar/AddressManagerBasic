@@ -8,7 +8,85 @@ Commodore 64 + 1541 disk\
 
 ---
 
-## Prerequisites
+## Test Data Set
+
+Use these 10 sample contacts for validation. They include duplicate last names
+and a mix of complete / partial records to exercise all code paths.
+
+| #  | Nachname | Vorname | Email                 | Strasse       | Ort       | Telefon     |
+| -- | -------- | ------- | --------------------- | ------------- | --------- | ----------- |
+| 1  | Schmidt  | Hans    | hans.schmidt@test.de  | Hauptstr. 1   | Berlin    | 030-111111  |
+| 2  | Schmidt  | Peter   | peter.schmidt@test.de | Bahnhofstr. 5 | Hamburg   | 040-222222  |
+| 3  | Mueller  | Anna    | anna.mueller@test.de  | Gartenweg 3   | Muenchen  | 089-333333  |
+| 4  | Mueller  | Klaus   |                       | Ringstr. 9    | Koeln     |             |
+| 5  | Wagner   | Maria   | maria.wagner@test.de  |               | Frankfurt | 069-444444  |
+| 6  | Becker   | Thomas  |                       |               |           | 0221-555555 |
+| 7  | Hoffmann | Lisa    | lisa.h@test.de        | Dorfstr. 7    | Stuttgart | 0711-666666 |
+| 8  | Fischer  | Georg   | g.fischer@test.de     | Marktplatz 2  | Nuernberg | 0911-777777 |
+| 9  | Richter  | Eva     |                       | Bergweg 11    | Dresden   |             |
+| 10 | Schulz   | Werner  | werner.schulz@test.de | Seestr. 4     | Bremen    | 0421-888888 |
+
+**Notes**:
+
+- Records 1+2 and 3+4 share the same Nachname → test duplicate search handling
+- Records 4, 6, 9 have optional fields empty → test optional field save/load
+- Enter all 10 records manually during Phase 2 of validation (or load from a
+  pre-formatted `ADDRESSES.DAT` if available)
+
+---
+
+## US1 Validation Checklist
+
+**User Story 1**: Neue Adresse erfassen (Priority P1, MVP)
+
+**Timed checks** (measure with a clock or stopwatch):
+
+| # | Step                                             | Expected                            | Timed? | Pass/Fail |
+| - | ------------------------------------------------ | ----------------------------------- | ------ | --------- |
+| 1 | Load program; read main menu                     | All 3 options visible in ≤30 sec    | ≤30 s  | [ ]       |
+| 2 | Press `1` → Suchmaske appears                    | Prompt "NACHNAME:" visible          | —      | [ ]       |
+| 3 | Press `N` → Erfassungsmaske opens                | 6 fields shown (Nachname first)     | —      | [ ]       |
+| 4 | Fill all 6 fields; press `S`                     | "GESPEICHERT" message; ≤2 min total | ≤2 min | [ ]       |
+| 5 | Auto-return or press key → main menu             | Main menu visible                   | —      | [ ]       |
+| 6 | Restart program; search for saved Nachname       | Record still present                | —      | [ ]       |
+| 7 | Start new entry; leave Nachname empty; press `S` | Error/retry prompt; no save         | —      | [ ]       |
+| 8 | Start new entry; fill only Nachname + Vorname    | Save succeeds; other fields blank   | —      | [ ]       |
+| 9 | Start new entry; fill fields; press `A`          | Return to Suchmaske; nothing saved  | —      | [ ]       |
+
+---
+
+## US2 Validation Checklist
+
+**User Story 2**: Vorhandene Adresse suchen und verwalten (Priority P2)
+
+| # | Step                                                  | Expected                                     | Pass/Fail |
+| - | ----------------------------------------------------- | -------------------------------------------- | --------- |
+| 1 | Search "Schmidt" (with 2 records existing)            | Both shown, numbered 1 and 2                 | [ ]       |
+| 2 | Select result by pressing `1`                         | Detail view with all fields shown            | [ ]       |
+| 3 | Press `B` (Bearbeiten) → edit Telefon → press `S`     | "GESPEICHERT"; change persists after restart | [ ]       |
+| 4 | Search "Schmidt", select record, press `K` (Kopieren) | New form pre-filled with same data           | [ ]       |
+| 5 | Modify Vorname to "Peter" → press `S`                 | Third Schmidt visible in search results      | [ ]       |
+| 6 | Select a record; press `L` → confirm screen appears   | "WIRKLICH LOESCHEN? J/N"                     | [ ]       |
+| 7 | Press `N` at delete confirm                           | Record unchanged; back to results list       | [ ]       |
+| 8 | Press `L` again, then `J`                             | "GELOESCHT"; record gone from search         | [ ]       |
+| 9 | Search for non-existent name (e.g., "Zzz")            | "KEINE TREFFER FUER: Zzz" message            | [ ]       |
+
+---
+
+## US3 Validation Checklist
+
+**User Story 3**: Gesamtliste anzeigen (Priority P3)
+
+| # | Step                               | Expected                               | Pass/Fail |
+| - | ---------------------------------- | -------------------------------------- | --------- |
+| 1 | From main menu press `2`           | Gesamtliste opens with first 8 records | [ ]       |
+| 2 | Records shown in storage order     | Same order as entered (no sorting)     | [ ]       |
+| 3 | If >8 records: press `W` (Weiter)  | Page 2 shown; page indicator updates   | [ ]       |
+| 4 | Press `Z` (Zurück)                 | Back to page 1                         | [ ]       |
+| 5 | Press `M` (Hauptmenü)              | Main menu visible                      | [ ]       |
+| 6 | Delete all records; open full list | "KEINE ADRESSEN VORHANDEN." message    | [ ]       |
+
+---
 
 1. **VICE Emulator** (https://vice-emu.sourceforge.io/) or **Real C64 + 1541
    Floppy Drive**

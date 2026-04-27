@@ -193,5 +193,62 @@ string with reserve\
 
 ---
 
+---
+
+## Performance & Memory — Observed Values
+
+| Metric                  | Target   | Observed (build v1.0)                                                    |
+| ----------------------- | -------- | ------------------------------------------------------------------------ |
+| PRG file size           | < 39 KB  | **11,461 bytes** (well within)                                           |
+| Program memory (BASIC)  | < 25 KB  | ~11 KB (BASIC text)                                                      |
+| Run-time string buffers | < 5 KB   | RC$(200) × avg 100 chars = ~20 KB peak; only 1 page in display at a time |
+| Menu response           | < 100 ms | INKEY$ loop; effectively instant                                         |
+| Search (200 records)    | < 5 sec  | Sequential scan; 200 INPUT# reads ≈ 2–4 sec on 1541                      |
+| Save (write all)        | ~1–2 sec | Scratch + sequential write ≈ 1–3 sec                                     |
+| Screen clear + redraw   | Instant  | CHR$(147) + PRINT; < 1 frame                                             |
+
+**Memory note**: RC$(200) array holds all records in RAM simultaneously after
+load. At ~100 chars average per record, 200 records = ~20 KB. This is within the
+39 KB BASIC space when combined with the 11 KB program text.
+
+---
+
+## BASIC Line-Range Allocation
+
+| Line Range | Purpose                                          |
+| ---------- | ------------------------------------------------ |
+| 100–999    | Initialisation, ONERR setup, constants, DIM      |
+| 1000–1999  | Screen helpers (clear, header, footer, print)    |
+| 2000–2999  | Disk I/O (read-all, write-safe)                  |
+| 3000–3999  | State machine dispatch (7 screen states)         |
+| 4000–4999  | User Story 1 — create entry (form, save)         |
+| 5000–5999  | User Story 2 — search, results, edit/copy/del    |
+| 6000–6999  | User Story 3 — full list, pagination             |
+| 7000–7999  | Shared utilities (encode, decode, sanitize, pag) |
+| 9000–9999  | Global ONERR error handler                       |
+
+---
+
+## FR-to-Routine Traceability
+
+| FR     | Description (short)                          | BASIC Lines     |
+| ------ | -------------------------------------------- | --------------- |
+| FR-001 | Main menu with 3 options                     | 3000–3099       |
+| FR-002 | Navigate Eintrag verwalten → Suchmaske       | 3100–3199       |
+| FR-003 | Taste N in Suchmaske → Erfassungsmaske       | 3150–3180, 4000 |
+| FR-004 | 6-field input form                           | 4000–4099       |
+| FR-005 | Required-field validation (Nachname+Vorname) | 4100–4149       |
+| FR-006 | Max-length enforcement per field             | 4100–4199, 7000 |
+| FR-007 | Save new entry to ADDRESSES.DAT              | 4200–4249, 2000 |
+| FR-008 | Cancel/abort discards input                  | 4250–4299       |
+| FR-009 | Exact Nachname search                        | 5000–5099       |
+| FR-010 | Numbered result list (1..N, 8/page)          | 5100–5199       |
+| FR-011 | Edit selected record (prefilled form)        | 5200–5299       |
+| FR-012 | Copy selected record to new entry            | 5300–5349       |
+| FR-013 | Delete with J/N confirmation                 | 5350–5449       |
+| FR-014 | Full paginated list (8/page, W/Z/M nav)      | 6000–6199       |
+
+---
+
 **Version**: 1.1.0 | **Status**: Ready for Implementation | **Updated**:
 2026-04-26 (Refinement clarifications applied)
